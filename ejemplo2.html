@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>sumar con web service</title>
+</head>
+<body>
+	<h3>sumar con web service</h3>
+	v1:<input type="text" name="v1" id="v1"><br>
+	v2:<input type="text" name="v2" id="v2"><br>
+	<button onclick="enviar();">enviar</button>
+	respuesta:<input type="text" name="res" id="res"><br>
+	<script type="text/javascript">
+		function enviar(){
+			let v1=document.getElementById('v1').value; //rescato el valor 1
+			let v2=document.getElementById('v2').value;	//rescato el valor2
+			const myobj={vv1:v1,vv2:v2};				//construyo el objeto
+			const myjson=JSON.stringify(myobj);			//transformo el objeto a JSON
+			let url="ejemploJson_suma.php?x="+myjson;	//compone la url para la solicitud
+			console.log(url);							//muestro url por la consola
+			const req=new XMLHttpRequest();				//construyo objeto request
+			req.open("GET",url,true);					//abrir la solicutud al webservice
+			req.onreadystatechange=function(aEvt){		//implemento la función de llamado
+				if(req.readyState==4 && req.status==200){ //valido que la solicitud este OK
+					let resultado=JSON.parse(this.responseText); //rescato respuesta y la parseo a JSON
+					document.getElementById('res').value=resultado.suma; //desde el JSON respuesta 
+				}														 //--> extraigo el resultado
+			};
+			req.send(null); 							//se realiza el llamado al web service
+		}
+	</script>
+
+</body>
+</html>
