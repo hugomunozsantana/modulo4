@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>web service</title>
+</head>
+<body>
+	<h3>Web Service</h3>
+	<p>
+		nombre:<input type="text" name="nom" id="nom"><br>
+		apellido:<input type="text" name="ape" id="ape"><br>
+		<button onclick="enviar();">enviar</button>
+		<button onclick="cargar();">cargar</button>
+	</p>
+	<script type="text/javascript">
+		function enviar(){
+			let no=document.getElementById('nom').value;
+			let ap=document.getElementById('ape').value;
+			const myobj={nombre:no,apellido:ap};
+			const myjson=JSON.stringify(myobj);
+			window.location="ejemploJson_in.php?x="+myjson;
+		}
+		function cargar(){
+			fetch("ejemploJson_out.php")
+			.then((respuesta)=>{
+				return respuesta.json();
+			})
+			.then((respuesta)=>{
+				document.getElementById('nom').value=respuesta.nom;
+				document.getElementById('ape').value=respuesta.ape;
+			});
+		}
+
+	</script>
+</body>
+</html>
